@@ -1,3 +1,7 @@
+/* 
+Source: https://dribbble.com/shots/7180834-Change-Password-Interaction
+*/
+
 html {
   box-sizing: border-box;
   font-family: "Roboto", BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
@@ -28,7 +32,7 @@ body {
 .form {
   background-color: #ffffff;
   border-radius: 30px;
-  padding: 90px 40px;
+  padding: 85px 40px;
   margin: auto;
   width: 80%;
   max-width: 800px;
@@ -46,11 +50,12 @@ body {
   }
 
   &-group {
-    margin-bottom: 30px;
+    margin-bottom: 35px;
+    position: relative;
 
     &-label {
       display: block;
-      font-size: 14px;
+      font-size: 15px;
       margin-bottom: 5px;
     }
 
@@ -58,19 +63,27 @@ body {
       border-radius: 5px;
       padding: 10px 15px;
       border: 1px solid #430090;
-      width: 100%;
+      width: 95%;
       font-size: inherit;
     }
   }
 
+  &-validation {
+    position: absolute;
+    bottom: -18px;
+    font-size: 12px;
+    display: block;
+  }
+
   &-submit {
     background-color: #430090;
-    width: 100%;
+    width: 95%;
     color: #fff;
     border: none;
     padding: 15px;
     font-size: inherit;
     cursor: pointer;
+    font-family: inherit;
   }
 
   &-column-inputs {
@@ -82,7 +95,7 @@ body {
     margin-right: 0;
 
     p {
-      margin-bottom: 10px;
+      margin-bottom: 15px;
       font-size: 15px;
     }
   }
