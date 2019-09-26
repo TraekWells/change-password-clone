@@ -39,14 +39,12 @@ body {
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.07);
 
   &-header {
-    font-size: 28px;
+    font-size: 26px;
     margin-bottom: 35px;
   }
 
   &-body {
-    display: grid;
-    grid-template-columns: minmax(auto, 400px) 1fr;
-    column-gap: 50px;
+    display: flex;
   }
 
   &-group {
@@ -65,6 +63,15 @@ body {
       border: 1px solid #430090;
       width: 95%;
       font-size: inherit;
+      position: relative;
+
+      &-icon {
+        position: absolute;
+        right: -10px;
+        top: 50%;
+        bottom: 50%;
+        width: 20px;
+      }
     }
   }
 
@@ -80,20 +87,20 @@ body {
     width: 95%;
     color: #fff;
     border: none;
-    padding: 15px;
-    font-size: inherit;
+    padding: 10px;
+    font-size: 17px;
     cursor: pointer;
     font-family: inherit;
   }
 
   &-column-inputs {
     flex: 1 0 55%;
+    margin-right: 35px;
   }
 
   &-column-guide {
-    flex: 1 0 40%;
-    margin-right: 0;
-
+    margin-top: 13px;
+    flex: 1 0 45%;
     p {
       margin-bottom: 15px;
       font-size: 15px;
