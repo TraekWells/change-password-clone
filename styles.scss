@@ -2,6 +2,12 @@
 Source: https://dribbble.com/shots/7180834-Change-Password-Interaction
 */
 
+:root {
+  --color-primary: #430090;
+  --color-valid: #10d577;
+  --color-invalid: #d7002e;
+}
+
 html {
   box-sizing: border-box;
   font-family: "Roboto", BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
@@ -60,7 +66,7 @@ body {
     &-input {
       border-radius: 5px;
       padding: 10px 15px;
-      border: 1px solid #430090;
+      border: 1px solid var(--color-primary);
       width: 95%;
       font-size: inherit;
       position: relative;
@@ -68,9 +74,25 @@ body {
       &-icon {
         position: absolute;
         right: -10px;
-        top: 50%;
-        bottom: 50%;
-        width: 20px;
+        top: 35px;
+        width: 18px;
+        display: none;
+
+        &.valid {
+          color: var(--color-valid);
+        }
+
+        &.invalid {
+          color: var(--color-invalid);
+        }
+      }
+
+      &.valid {
+        border: 1px solid var(--color-valid);
+      }
+
+      &.invalid {
+        border: 1px solid var(--color-invalid);
       }
     }
   }
@@ -79,11 +101,19 @@ body {
     position: absolute;
     bottom: -18px;
     font-size: 12px;
-    display: block;
+    display: none;
+
+    &.valid {
+      color: var(--color-valid);
+    }
+
+    &.invalid {
+      color: var(--color-invalid);
+    }
   }
 
   &-submit {
-    background-color: #430090;
+    background-color: var(--color-primary);
     width: 95%;
     color: #fff;
     border: none;
@@ -104,6 +134,11 @@ body {
     p {
       margin-bottom: 15px;
       font-size: 15px;
+
+      &.valid {
+        color: var(--color-valid);
+        text-decoration: line-through;
+      }
     }
   }
 }
