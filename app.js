@@ -9,6 +9,79 @@
  */
 
 const form = document.querySelector(".form");
+const password = document.querySelector('input[data-name="password"]');
+const confirmPassword = document.querySelector(
+  'input[data-name="confirm-password"]'
+);
+const upper = document.getElementById("upper");
+const number = document.getElementById("number");
+const length = document.getElementById("length");
+
+const validationMessage = document.querySelector(".form-validation-message");
+
+/*
+These are the Regex I need to check as the user types
+*/
+const upperRegex = /(?=.*[A-Z])/;
+const numberRegex = /(?=.*\d)/;
+const lengthRegex = /[a-zA-Z\d]{8,}$/;
+const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+
+const validatePassword = function() {
+  // Get user input
+  let userInput = password.value;
+  // Validate against each regex and update styles accordingly
+  if (userInput === "") {
+    upper.classList.remove("valid");
+    number.classList.remove("valid");
+    length.classList.remove("valid");
+  }
+  upperRegex.test(userInput)
+    ? upper.classList.add("valid")
+    : upper.classList.remove("valid");
+
+  numberRegex.test(userInput)
+    ? number.classList.add("valid")
+    : number.classList.remove("valid");
+
+  lengthRegex.test(userInput)
+    ? length.classList.add("valid")
+    : length.classList.remove("valid");
+};
+
+const validateConfirmPassword = function() {
+  let userInput = confirmPassword.value;
+  if (userInput.length === password.value.length) {
+    if (userInput === password.value) {
+      displayMessage("Passwords Match", "valid");
+    }
+    if (!userInput === password.value) {
+      displayMessage("Passwords Do Not Match", "invalid");
+    }
+  }
+  console.log(userInput);
+  console.log(password.value);
+};
+
+const displayMessage = function(msg, validationClass) {
+  validationMessage.textContent = msg;
+  validationMessage.style.display = "block";
+  if (validationMessage.classList.length === 0) {
+    validationMessage.classList.add(validationClass);
+  } else if (validationMessage.classList.contains("valid")) {
+    validationMessage.classList.replace("valid", validationClass);
+  } else {
+    validationMessage.classList.replace("invalid", validationClass);
+  }
+};
+
+const validateInput = function() {
+  // Get user input
+  // Validate against each regex
+  // Update styles accordingly
+  // Update all regex
+  // Show success message if input passes all tests
+};
 
 const successMessage = `
   <div class="form-success">
@@ -25,4 +98,6 @@ const successMessage = `
   </div>
  `;
 
-// form.innerHTML = successMessage;
+password.addEventListener("keyup", validatePassword);
+confirmPassword.addEventListener("keyup", validateConfirmPassword);
+form.addEventListener("submit", validateInput);

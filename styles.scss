@@ -114,17 +114,17 @@ body {
     }
   }
 
-  &-validation {
+  &-validation-message {
     position: absolute;
     bottom: -18px;
     font-size: 12px;
     display: none;
 
-    &.valid {
+    & .valid {
       color: var(--color-valid);
     }
 
-    &.invalid {
+    & .invalid {
       color: var(--color-invalid);
     }
   }
