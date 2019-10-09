@@ -10,13 +10,16 @@
 
 const form = document.querySelector(".form");
 const password = document.querySelector('input[data-name="password"]');
-const confirmPassword = document.querySelector('input[data-name="confirm-password"]');
+const confirmPassword = document.querySelector(
+  'input[data-name="confirm-password"]'
+);
 const upper = document.getElementById("upper");
 const number = document.getElementById("number");
 const length = document.getElementById("length");
 const validationMessage = document.querySelector(".form-validation-message");
 let passwordValidated = false;
 let confirmPasswordValidated = false;
+let readyToValidConfirmPassword = false;
 const validIcon = `
   <svg aria-hidden="true" focusable="false" data-prefix="fas"
   class="svg-inline--fa fa-check-circle fa-w-16 form-group-input-icon valid" role="img"
@@ -40,7 +43,7 @@ const upperRegex = /(?=.*[A-Z])/;
 const numberRegex = /(?=.*\d)/;
 const lengthRegex = /[a-zA-Z\d]{8,}$/;
 
-const validatePassword = function () {
+const validatePassword = function() {
   // Get user input
   let userInput = password.value;
   // Validate against each regex and update styles accordingly
@@ -52,77 +55,103 @@ const validatePassword = function () {
     toggleIcon("password");
   }
   // Make sure the user input contains at least 1 uppercase letter
-  upperRegex.test(userInput) ? upper.classList.add("valid") : upper.classList.remove("valid");
+  upperRegex.test(userInput)
+    ? upper.classList.add("valid")
+    : upper.classList.remove("valid");
   // Make sure the user input contains at least 1 number
-  numberRegex.test(userInput) ? number.classList.add("valid") : number.classList.remove("valid");
+  numberRegex.test(userInput)
+    ? number.classList.add("valid")
+    : number.classList.remove("valid");
   // Make sure the user input contains at least 8 characters
-  lengthRegex.test(userInput) ? length.classList.add("valid") : length.classList.remove("valid");
+  lengthRegex.test(userInput)
+    ? length.classList.add("valid")
+    : length.classList.remove("valid");
 
-  if (upperRegex.test(userInput) === false || numberRegex.test(userInput) === false || lengthRegex.test(userInput) === false) {
+  if (
+    upperRegex.test(userInput) === false ||
+    numberRegex.test(userInput) === false ||
+    lengthRegex.test(userInput) === false
+  ) {
     passwordValidated = false;
-    password.classList.remove('valid');
+    password.classList.remove("valid");
     toggleIcon("password");
   }
 
   if (passwordValidated === false) {
-    if (upperRegex.test(userInput) && numberRegex.test(userInput) && lengthRegex.test(userInput)) {
+    if (
+      upperRegex.test(userInput) &&
+      numberRegex.test(userInput) &&
+      lengthRegex.test(userInput)
+    ) {
       passwordValidated = true;
-      password.classList.add('valid');
+      password.classList.add("valid");
       toggleIcon("password");
     }
   }
 };
 
-const validateConfirmPassword = function () {
+const validateConfirmPassword = function() {
   let userInput = confirmPassword.value;
-  if (userInput === password.value) {
-    confirmPasswordValidated = true;
-    confirmPassword.classList.remove('invalid');
-    validationMessage.classList.remove('invalid');
-    validationMessage.classList.add('valid');
-    confirmPassword.classList.add('valid');
-    validationMessage.textContent = "Passwords Match"
-    toggleIcon("confirmPassword");
-  } else {
-    confirmPasswordValidated = false;
-    validationMessage.classList.remove('valid');
-    confirmPassword.classList.remove('valid');
-    validationMessage.classList.add('invalid');
-    confirmPassword.classList.add('invalid');
-    validationMessage.textContent = "Passwords Do Not Match";
-    toggleIcon("confirmPassword");
+  if (userInput.length === password.value.length) {
+    readyToValidConfirmPassword = true;
+  }
+
+  if (readyToValidConfirmPassword) {
+    if (userInput === password.value) {
+      confirmPasswordValidated = true;
+      confirmPassword.classList.remove("invalid");
+      validationMessage.classList.remove("invalid");
+      validationMessage.classList.add("valid");
+      confirmPassword.classList.add("valid");
+      validationMessage.textContent = "Passwords Match";
+      toggleIcon("confirmPassword");
+    } else {
+      confirmPasswordValidated = false;
+      validationMessage.classList.remove("valid");
+      confirmPassword.classList.remove("valid");
+      validationMessage.classList.add("invalid");
+      confirmPassword.classList.add("invalid");
+      validationMessage.textContent = "Passwords Do Not Match";
+      toggleIcon("confirmPassword");
+    }
   }
 };
 
-const toggleIcon = function (element) {
+const toggleIcon = function(element) {
   /**
    * TODO: Figure out why I'm getting a console error for this
    */
   if (element === "password") {
     let parent = password.parentNode;
     if (passwordValidated === true) {
-      password.insertAdjacentHTML("afterend", validIcon);
+      parent.insertAdjacentHTML("beforeend", validIcon);
     } else {
-      password.parentNode.removeChild(parent.children[2]);
+      // parent.removeChild(parent.lastChild);
+      // password.parentNode.removeChild(parent.children[2]);
+      // validIcon.parentNode.removeChild(validIcon);
     }
   }
   if (element === "confirmPassword") {
     let parent = confirmPassword.parentNode;
     if (confirmPasswordValidated === true) {
-      confirmPassword.parentNode.removeChild(parent.children[2]);
-      confirmPassword.insertAdjacentHTML("afterend", validIcon);
+      validIcon.parent.removeChild(validIcon);
+      parent.appendChild(validIcon);
+      // confirmPassword.parentNode.removeChild(parent.children[2]);
+      // confirmPassword.insertAdjacentHTML("afterend", validIcon);
     } else {
-      confirmPassword.parentNode.removeChild(parent.children[2]);
-      confirmPassword.insertAdjacentHTML("afterend", invalidIcon);
+      validIcon.parent.removeChild(invalidIcon);
+      parent.appendChild(invalidIcon);
+      // confirmPassword.parentNode.removeChild(parent.children[2]);
+      // confirmPassword.insertAdjacentHTML("afterend", invalidIcon);
     }
   }
 };
 
-const validateInputs = function (e) {
+const validateInputs = function(e) {
   // Show success message if input passes all tests
   e.preventDefault();
   if (passwordValidated === true && confirmPasswordValidated === true) {
-    form.insertAdjacentHTML('afterbegin', successMessage);
+    form.insertAdjacentHTML("afterbegin", successMessage);
   }
 };
 
