@@ -10,14 +10,28 @@
 
 const form = document.querySelector(".form");
 const password = document.querySelector('input[data-name="password"]');
-const confirmPassword = document.querySelector(
-  'input[data-name="confirm-password"]'
-);
+const confirmPassword = document.querySelector('input[data-name="confirm-password"]');
 const upper = document.getElementById("upper");
 const number = document.getElementById("number");
 const length = document.getElementById("length");
-
 const validationMessage = document.querySelector(".form-validation-message");
+let passwordValidated = false;
+let confirmPasswordValidated = false;
+const validIcon = `
+  <svg aria-hidden="true" focusable="false" data-prefix="fas"
+  class="svg-inline--fa fa-check-circle fa-w-16 form-group-input-icon valid" role="img"
+  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <path fill="currentColor"
+    d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z">
+  </path>
+  </svg>`;
+const invalidIcon = `<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="exclamation-circle"
+class="svg-inline--fa fa-exclamation-circle fa-w-16 form-group-input-icon invalid" role="img"
+xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<path fill="currentColor"
+  d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zm-248 50c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z">
+</path>
+</svg>`;
 
 /*
 These are the Regex I need to check as the user types
@@ -25,9 +39,8 @@ These are the Regex I need to check as the user types
 const upperRegex = /(?=.*[A-Z])/;
 const numberRegex = /(?=.*\d)/;
 const lengthRegex = /[a-zA-Z\d]{8,}$/;
-const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
 
-const validatePassword = function() {
+const validatePassword = function () {
   // Get user input
   let userInput = password.value;
   // Validate against each regex and update styles accordingly
@@ -35,52 +48,82 @@ const validatePassword = function() {
     upper.classList.remove("valid");
     number.classList.remove("valid");
     length.classList.remove("valid");
+    passwordValidated = false;
+    toggleIcon("password");
   }
-  upperRegex.test(userInput)
-    ? upper.classList.add("valid")
-    : upper.classList.remove("valid");
+  // Make sure the user input contains at least 1 uppercase letter
+  upperRegex.test(userInput) ? upper.classList.add("valid") : upper.classList.remove("valid");
+  // Make sure the user input contains at least 1 number
+  numberRegex.test(userInput) ? number.classList.add("valid") : number.classList.remove("valid");
+  // Make sure the user input contains at least 8 characters
+  lengthRegex.test(userInput) ? length.classList.add("valid") : length.classList.remove("valid");
 
-  numberRegex.test(userInput)
-    ? number.classList.add("valid")
-    : number.classList.remove("valid");
+  if (upperRegex.test(userInput) === false || numberRegex.test(userInput) === false || lengthRegex.test(userInput) === false) {
+    passwordValidated = false;
+    password.classList.remove('valid');
+    toggleIcon("password");
+  }
 
-  lengthRegex.test(userInput)
-    ? length.classList.add("valid")
-    : length.classList.remove("valid");
+  if (passwordValidated === false) {
+    if (upperRegex.test(userInput) && numberRegex.test(userInput) && lengthRegex.test(userInput)) {
+      passwordValidated = true;
+      password.classList.add('valid');
+      toggleIcon("password");
+    }
+  }
 };
 
-const validateConfirmPassword = function() {
+const validateConfirmPassword = function () {
   let userInput = confirmPassword.value;
-  if (userInput.length === password.value.length) {
-    if (userInput === password.value) {
-      displayMessage("Passwords Match", "valid");
-    }
-    if (!userInput === password.value) {
-      displayMessage("Passwords Do Not Match", "invalid");
-    }
-  }
-  console.log(userInput);
-  console.log(password.value);
-};
-
-const displayMessage = function(msg, validationClass) {
-  validationMessage.textContent = msg;
-  validationMessage.style.display = "block";
-  if (validationMessage.classList.length === 0) {
-    validationMessage.classList.add(validationClass);
-  } else if (validationMessage.classList.contains("valid")) {
-    validationMessage.classList.replace("valid", validationClass);
+  if (userInput === password.value) {
+    confirmPasswordValidated = true;
+    confirmPassword.classList.remove('invalid');
+    validationMessage.classList.remove('invalid');
+    validationMessage.classList.add('valid');
+    confirmPassword.classList.add('valid');
+    validationMessage.textContent = "Passwords Match"
+    toggleIcon("confirmPassword");
   } else {
-    validationMessage.classList.replace("invalid", validationClass);
+    confirmPasswordValidated = false;
+    validationMessage.classList.remove('valid');
+    confirmPassword.classList.remove('valid');
+    validationMessage.classList.add('invalid');
+    confirmPassword.classList.add('invalid');
+    validationMessage.textContent = "Passwords Do Not Match";
+    toggleIcon("confirmPassword");
   }
 };
 
-const validateInput = function() {
-  // Get user input
-  // Validate against each regex
-  // Update styles accordingly
-  // Update all regex
+const toggleIcon = function (element) {
+  /**
+   * TODO: Figure out why I'm getting a console error for this
+   */
+  if (element === "password") {
+    let parent = password.parentNode;
+    if (passwordValidated === true) {
+      password.insertAdjacentHTML("afterend", validIcon);
+    } else {
+      password.parentNode.removeChild(parent.children[2]);
+    }
+  }
+  if (element === "confirmPassword") {
+    let parent = confirmPassword.parentNode;
+    if (confirmPasswordValidated === true) {
+      confirmPassword.parentNode.removeChild(parent.children[2]);
+      confirmPassword.insertAdjacentHTML("afterend", validIcon);
+    } else {
+      confirmPassword.parentNode.removeChild(parent.children[2]);
+      confirmPassword.insertAdjacentHTML("afterend", invalidIcon);
+    }
+  }
+};
+
+const validateInputs = function (e) {
   // Show success message if input passes all tests
+  e.preventDefault();
+  if (passwordValidated === true && confirmPasswordValidated === true) {
+    form.insertAdjacentHTML('afterbegin', successMessage);
+  }
 };
 
 const successMessage = `
@@ -100,4 +143,4 @@ const successMessage = `
 
 password.addEventListener("keyup", validatePassword);
 confirmPassword.addEventListener("keyup", validateConfirmPassword);
-form.addEventListener("submit", validateInput);
+form.addEventListener("submit", validateInputs);
