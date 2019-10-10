@@ -52,6 +52,11 @@ body {
   position: relative;
   overflow: hidden;
 
+  @media screen and (max-width: 40.625em) {
+    padding: 50px;
+    height: auto;
+  }
+
   p {
     margin-bottom: 10px;
     font-size: 15px;
@@ -69,6 +74,10 @@ body {
 
   &-body {
     display: flex;
+
+    @media screen and (max-width: 40.625em) {
+      flex-direction: column;
+    }
   }
 
   &-group {
@@ -145,6 +154,10 @@ body {
   &-column-inputs {
     flex: 1 0 55%;
     margin-right: 35px;
+
+    @media screen and (max-width: 40.625em) {
+      margin-right: 0;
+    }
   }
 
   &-column-guide {
