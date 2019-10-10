@@ -1,5 +1,6 @@
-/* 
-Source: https://dribbble.com/shots/7180834-Change-Password-Interaction
+/*
+I want to thank Priyank Vyas for the great design. I'm not taking credit for this, only building for practice.
+Design Source: https://dribbble.com/shots/7180834-Change-Password-Interaction
 */
 
 :root {
@@ -184,4 +185,10 @@ body {
       width: 50px;
     }
   }
+}
+
+.credits {
+  position: absolute;
+  bottom: 15px;
+  font-size: 13px;
 }
