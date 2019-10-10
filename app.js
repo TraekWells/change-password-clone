@@ -43,7 +43,7 @@ const upperRegex = /(?=.*[A-Z])/;
 const numberRegex = /(?=.*\d)/;
 const lengthRegex = /[a-zA-Z\d]{8,}$/;
 
-const validatePassword = function() {
+const validatePassword = function () {
   // Get user input
   let userInput = password.value;
   // Validate against each regex and update styles accordingly
@@ -90,7 +90,7 @@ const validatePassword = function() {
   }
 };
 
-const validateConfirmPassword = function() {
+const validateConfirmPassword = function () {
   let userInput = confirmPassword.value;
   if (userInput.length === password.value.length) {
     readyToValidConfirmPassword = true;
@@ -117,37 +117,44 @@ const validateConfirmPassword = function() {
   }
 };
 
-const toggleIcon = function(element) {
+const toggleIcon = function (element) {
   /**
    * TODO: Figure out why I'm getting a console error for this
    */
   if (element === "password") {
-    let parent = password.parentNode;
     if (passwordValidated === true) {
-      parent.insertAdjacentHTML("beforeend", validIcon);
+      password.parentNode.insertAdjacentHTML("beforeend", validIcon);
     } else {
-      // parent.removeChild(parent.lastChild);
-      // password.parentNode.removeChild(parent.children[2]);
-      // validIcon.parentNode.removeChild(validIcon);
+      let validIconSelector = document.querySelector('.form-group-input-icon.valid');
+      if (validIconSelector) {
+        validIconSelector.remove();
+      }
     }
   }
   if (element === "confirmPassword") {
-    let parent = confirmPassword.parentNode;
+    let validIconSelector = document.querySelector('[data-name="confirm-password"] + .form-group-input-icon.valid')
+    let invalidIconSelector = document.querySelector('[data-name="confirm-password"] + .form-group-input-icon.invalid')
     if (confirmPasswordValidated === true) {
-      validIcon.parent.removeChild(validIcon);
-      parent.appendChild(validIcon);
-      // confirmPassword.parentNode.removeChild(parent.children[2]);
-      // confirmPassword.insertAdjacentHTML("afterend", validIcon);
+      if (!validIconSelector) {
+        if (invalidIconSelector) {
+          invalidIconSelector.remove();
+        }
+        confirmPassword.parentNode.insertAdjacentHTML("beforeend", validIcon);
+      }
     } else {
-      validIcon.parent.removeChild(invalidIcon);
-      parent.appendChild(invalidIcon);
+      if (!invalidIconSelector) {
+        if (validIconSelector) {
+          validIconSelector.remove();
+        }
+        confirmPassword.parentNode.insertAdjacentHTML("beforeend", invalidIcon);
+      }
       // confirmPassword.parentNode.removeChild(parent.children[2]);
       // confirmPassword.insertAdjacentHTML("afterend", invalidIcon);
     }
   }
 };
 
-const validateInputs = function(e) {
+const validateInputs = function (e) {
   // Show success message if input passes all tests
   e.preventDefault();
   if (passwordValidated === true && confirmPasswordValidated === true) {

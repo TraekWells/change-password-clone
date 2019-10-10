@@ -1,52 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Change Password</title>
-    <link
-      href="https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
 
-  <body>
-    <form class="form">
-      <h1 class="form-header">Change your password</h1>
-      <div class="form-body">
-        <div class="form-column-inputs">
-          <div class="form-group">
-            <span class="form-group-label">New Password</span>
-            <input
-              type="password"
-              class="form-group-input"
-              data-name="password"
-            />
-          </div>
-          <div class="form-group">
-            <span class="form-group-label">Confirm New Password</span>
-            <input
-              type="password"
-              class="form-group-input"
-              data-name="confirm-password"
-            />
-            <span class="form-validation-message"></span>
-          </div>
-          <div class="form-group">
-            <button class="form-submit">Change my password</button>
-          </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Change Password</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <form class="form">
+    <h1 class="form-header">Change your password</h1>
+    <div class="form-body">
+      <div class="form-column-inputs">
+        <div class="form-group">
+          <span class="form-group-label">New Password</span>
+          <input type="password" class="form-group-input" data-name="password" />
         </div>
-        <div class="form-column-guide">
-          <p><strong>Password must contain:</strong></p>
-          <p id="upper">At least 1 upper case letter (A-Z)</p>
-          <p id="number">At least 1 number (0-9)</p>
-          <p id="length">At least 8 characters</p>
+        <div class="form-group">
+          <span class="form-group-label">Confirm New Password</span>
+          <span class="form-validation-message"></span>
+          <input type="password" class="form-group-input" data-name="confirm-password" />
+        </div>
+        <div class="form-group">
+          <button class="form-submit">Change my password</button>
         </div>
       </div>
-    </form>
+      <div class="form-column-guide">
+        <p><strong>Password must contain:</strong></p>
+        <p id="upper">At least 1 upper case letter (A-Z)</p>
+        <p id="number">At least 1 number (0-9)</p>
+        <p id="length">At least 8 characters</p>
+      </div>
+    </div>
+  </form>
 
-    <script src="app.js"></script>
-  </body>
+  <script src="app.js"></script>
+</body>
+
 </html>
