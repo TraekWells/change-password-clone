@@ -41,7 +41,7 @@ These are the Regex I need to check as the user types
 */
 const upperRegex = /(?=.*[A-Z])/;
 const numberRegex = /(?=.*\d)/;
-const lengthRegex = /[a-zA-Z\d]{8,}$/;
+const lengthRegex = /[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]{8,}$/;
 
 const validatePassword = function () {
   // Get user input
